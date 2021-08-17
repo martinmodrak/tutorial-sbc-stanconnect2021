@@ -1,0 +1,129 @@
+---
+title: "SBC Intro"
+author: "Martin Modrák"
+date: "2021/08/24 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: ["hygge", "middlebury-fonts", "ninjutsu"]
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+# Two types of problems with Stan model
+
+1. Bug in model 
+
+--
+
+2. Data - model mismatch 
+
+--
+
+We will focus on 1.
+
+---
+
+# Simulation to the rescue!
+
+--
+
+How to seperate bugs from model-data mismatch?
+
+--
+
+- If we simulate data _exactly_ as the model assumes, any problem has to be a bug.
+
+---
+
+class: split-two
+
+
+.column[.content[
+
+## Stan
+
+```stan
+data {
+   int<lower=0> N;
+   vector<lower=0>[N] y;
+   vector[N] x;
+}
+
+parameters {
+   real a;
+   real b;
+   real<lower=0> sigma;
+}
+
+model {
+   vector[N] mu = a + b * x;
+   a ~ normal(5, 3);
+   b ~ normal(0, 1);
+   sigma ~ normal(0, 2);
+   y ~ lognormal(mu, sigma);
+}
+```
+]]
+.column.bg-gray[.content[
+  
+## R  
+
+```{r, eval = FALSE}
+# N and x is not modelled, 
+# choose to match your actual data
+N <- 10
+x <- rnorm(n = N, mean = 0, sd = 2)
+
+
+
+a <- rnorm(n = 1, mean = 5, sd = 3)
+b <- rnorm(n = 1, mean = 0, sd = 1)
+sigma <- abs(
+  rnorm(n = 1, mean = 0, sd = 2))
+
+
+mu <- a + b * x
+
+
+
+y <- rlnorm(n = N, 
+       meanlog = mu, sdlog = sigma)
+       
+```  
+  
+]]
+
+---
+
+# How to spot failure?
+
+```
+  variable      mean    sd        q5      q95
+   alpha        0.372 0.224   0.00794   0.737 
+```
+
+Is this OK, if we simulated
+
+- `alpha = 0.3`
+
+--
+
+-  `alpha = 0.007`
+
+--
+
+-  `alpha = -30`
+
+--
+
+# How to spot succes?!
+
+
+---
