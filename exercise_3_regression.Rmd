@@ -4,7 +4,7 @@ author: "Martin Modrák"
 date: "2021/08/24 (updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
-    lib_dir: html/libs
+    lib_dir: ./html/libs
     css: ["hygge", "middlebury-fonts", "ninjutsu", "tutorial-sbc.css"]
     nature:
       highlightStyle: github
