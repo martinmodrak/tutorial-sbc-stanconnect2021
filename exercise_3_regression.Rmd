@@ -1,0 +1,256 @@
+---
+title: "Excercise 3"
+author: "Martin Modrák"
+date: "2021/08/24 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: ["hygge", "middlebury-fonts", "ninjutsu", "tutorial-sbc.css"]
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+# A detective story
+
+We have a trustworthy generator of data for linear regression 
+and 3 suspicious implementations in Stan. Can you tell which is telling the truth?
+Maybe all are wrong? Maybe all are correct?
+
+---
+
+class:small-code
+
+# Generator
+
+It is often useful to implement the generator code in the most simple and stupid
+way to reduce the probability of errors. Keep all the fancy optimizations for your
+Stan code!
+
+We promise the code below is correct. `N` is the number of data points, `K` the number of predictors.
+
+```r
+single_dataset_regression <- function(N, K) {
+  x <- matrix(rnorm(n = N * K, mean = 0, sd = 1), 
+              nrow = N, ncol = K)
+  alpha <- rnorm(n = 1, mean = 0, sd = 1)
+  beta <- rnorm(n = K, mean = 0, sd = 1)
+  sigma <- abs(rnorm(n = 1, mean = 0, sd = 2))
+  
+  y <- array(NA_real_, N)
+  for(n in 1:N) {
+    mu <- alpha
+    for(k in 1:K) {
+      mu <- mu + x[n,k] * beta[k]
+    }
+    y[n] <- rnorm(n = 1, mean = mu, sd = sigma) 
+  }
+  
+  list(
+    parameters = list(
+      alpha = alpha,
+      beta = beta,
+      sigma = sigma),
+    generated = list(
+      N = N, K = K,
+      x = x, y = y
+    )
+  )
+  
+}
+```
+
+---
+
+# Task 1
+
+Build the generator and generate datasets.
+Once again, 10 datasets should serve us well.
+
+```r
+generator_regression <- function_SBC_generator(
+               single_dataset_regression, N = 100, K = 2)
+datasets_regression <- generate_datasets(
+               generator_regression, 10)
+```
+
+---
+
+class: small-code
+
+# Suspect 1
+
+Store as `regression_1.stan`.
+
+```stan
+data {
+  int<lower=0> N;   // number of data items
+  int<lower=0> K;   // number of predictors
+  matrix[N, K] x;   // predictor matrix
+  vector[N] y;      // outcome vector
+}
+parameters {
+  real alpha;           // intercept
+  vector[K] beta;       // coefficients for predictors
+  real<lower=0> sigma;  // error scale
+}
+model {
+  vector[N] mu = rep_vector(alpha, N);
+  for(i in 1:K) {
+    for(j in 1:N) {
+      mu[j] += beta[i] * x[j, i];
+    }
+  }
+  y ~ normal(mu, sigma);  // likelihood
+  alpha ~ normal(0, 5);
+  beta ~ normal(0, 1);
+  sigma ~ normal(0, 2);
+}
+```
+
+---
+
+class: small-code
+
+# Suspect 2
+
+Store as `regression_2.stan`.
+
+```stan
+data {
+  int<lower=0> N;   // number of data items
+  int<lower=0> K;   // number of predictors
+  matrix[N, K] x;   // predictor matrix
+  vector[N] y;      // outcome vector
+}
+parameters {
+  real alpha;           // intercept
+  vector[K] beta;       // coefficients for predictors
+  real<lower=0> sigma;  // error scale
+}
+model {
+  vector[N] mu;
+  for(i in 1:N) {
+    mu[i] = alpha;
+    for(j in 1:K) {
+      mu[i] += beta[j] * x[j, j];
+    }
+  }
+  y ~ normal(mu, sigma);  // likelihood
+  alpha ~ normal(0, 5);
+  beta ~ normal(0, 1);
+  sigma ~ normal(0, 2);
+}
+```
+
+---
+
+class: small-code
+
+# Suspect 3
+
+Store as `regression_3.stan`.
+
+```stan
+data {
+  int<lower=0> N;   // number of data items
+  int<lower=0> K;   // number of predictors
+  matrix[N, K] x;   // predictor matrix
+  vector[N] y;      // outcome vector
+}
+parameters {
+  real alpha;           // intercept
+  vector[K] beta;       // coefficients for predictors
+  real<lower=0> sigma;  // error scale
+}
+model {
+  y ~ normal(transpose(beta) * transpose(x) + alpha, sigma);  // likelihood
+  alpha ~ normal(0, 5);
+  beta ~ normal(0, 1);
+  sigma ~ normal(0, 2);
+}
+```
+
+---
+
+# Question 1
+
+Make a guess - which of the suspects you believe implement linear regression correctly? (could be all three)
+Which of the suspects will not give correct results? (could be all three).
+
+Don't spend too much time investigating, if you don't see it - SBC is going to 
+help us!
+
+---
+
+class: small-code
+
+# Task 2 - Run SBC
+
+Backend with `cmdstanr`
+```r
+  model_regression_1 <- cmdstan_model("regression_1.stan")
+  backend_regression_1 <- cmdstan_sample_SBC_backend(
+      model_regression_1, 
+      iter_warmup = 400, iter_sampling = 500)
+
+```
+
+Backend with `rstan`
+
+```r
+  model_regression_1 <- stan_model("regression_1.stan")
+  backend_regression_1 <- rstan_sample_SBC_backend(
+      model_regression_1, 
+       iter = 900, warmup = 400)
+```
+
+SBC + plots
+
+```r
+results_regression_1 <- 
+  compute_results(datasets_regression, backend_regression_1)
+plot_rank_hist(results_regression_1)
+plot_ecdf(results_regression_1)
+plot_ecdf_diff(results_regression_1)
+
+```
+
+(Repeat for all 3 suspects)
+
+---
+
+# Question 2/2
+
+Which of the suspects were caught misleading us using SBC? 
+Which parameters are affected the most and in which direction?
+
+
+---
+
+# Bonus Task 1
+
+Figure out what went wrong in the problematic model(s). Can you fix the problem(s)?
+
+There is a hint on the next slide.
+
+---
+
+# Bonus Task 1 - Hint
+
+Indexing and for loops are a frequent source of typos. Some letters just look quite similar.
+
+---
+
+# Bonus Task 2
+
+Can you explain why the problematic model(s) produced the SBC plots they did?
+
+# Bonus Task 3
+
+Look at `results_regression_X$stats` for the problematic models. Would it be possible to use `z_score` to diagose the problem faster? 

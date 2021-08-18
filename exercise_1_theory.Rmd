@@ -1,0 +1,64 @@
+---
+title: "Excercise 1"
+author: "Martin Modrák"
+date: "2021/08/24 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: ["hygge", "middlebury-fonts", "ninjutsu"]
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+# How this tutorial will work
+
+(hopefully)
+
+- Exercise
+  - Tasks + questions
+  - Bonuses
+  - Materials will be available after the tutorial, so you can finish bonuses later.
+- Stuck? First ask your colleagues at the table.
+  - If you're still stuck, let know any of the organizers.
+- It's for you! You can:
+  - Mute everything and work alone
+  - Take your time
+  - Rush through everything
+  - Wing it and wait for others to complete and tell you how it went.
+
+CoC, moderation
+
+---
+
+# Question 1
+
+## If SBC signals a problem, does it mean that the model needs fixing?
+
+---
+
+## When is a single fit enough to notice a problem?
+
+---
+
+## Match the following rank plots to ECDF plots
+
+
+### Which of those signals a problem? How severe?
+---
+
+## Match the following rank plots to ECDF diff plots
+
+### Which of those signals a problem? How severe?
+
+---
+
+# Bonus
+
+## 
+

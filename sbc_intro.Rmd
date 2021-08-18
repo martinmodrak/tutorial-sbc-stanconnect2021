@@ -123,6 +123,8 @@ Is this OK, if we simulated
 
 --
 
+Diagnostics (divergences, Rhat, ESS)
+
 # How to spot succes?!
 
 
