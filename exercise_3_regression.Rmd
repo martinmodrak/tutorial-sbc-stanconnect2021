@@ -4,7 +4,7 @@ author: "Martin Modrák"
 date: "2021/08/24 (updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
-    lib_dir: libs
+    lib_dir: html/libs
     css: ["hygge", "middlebury-fonts", "ninjutsu", "tutorial-sbc.css"]
     nature:
       highlightStyle: github
@@ -253,4 +253,4 @@ Can you explain why the problematic model(s) produced the SBC plots they did?
 
 # Bonus Task 3
 
-Look at `results_regression_X$stats` for the problematic models. Would it be possible to use `z_score` to diagose the problem faster? 
+Look at `results_regression_X$stats` for the problematic models. Would it be possible to use `z_score` to diagnose the problem faster? 

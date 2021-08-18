@@ -4,7 +4,7 @@ author: "Martin Modrák"
 date: "2021/08/24 (updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
-    lib_dir: libs
+    lib_dir: html/libs
     css: ["hygge", "middlebury-fonts", "ninjutsu"]
     nature:
       highlightStyle: github
@@ -183,7 +183,7 @@ but in general inspecting the results further would be warranted.
 You can plot the results in various formats:
 
 ```r
-plot_rank_hist(results_gamma)
+plot_rank_hist(results_gamma, bins = 10)
 plot_ecdf(results_gamma)
 plot_ecdf_diff(results_gamma)
 ```
