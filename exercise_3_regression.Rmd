@@ -73,7 +73,7 @@ Build the generator and generate datasets.
 Once again, 10 datasets should serve us well.
 
 ```r
-generator_regression <- function_SBC_generator(
+generator_regression <- SBC_generator_function(
                single_dataset_regression, N = 100, K = 2)
 datasets_regression <- generate_datasets(
                generator_regression, 10)
@@ -88,29 +88,9 @@ class: small-code
 Store as `regression_1.stan`.
 
 ```stan
-data {
-  int<lower=0> N;   // number of data items
-  int<lower=0> K;   // number of predictors
-  matrix[N, K] x;   // predictor matrix
-  vector[N] y;      // outcome vector
-}
-parameters {
-  real alpha;           // intercept
-  vector[K] beta;       // coefficients for predictors
-  real<lower=0> sigma;  // error scale
-}
-model {
-  vector[N] mu = rep_vector(alpha, N);
-  for(i in 1:K) {
-    for(j in 1:N) {
-      mu[j] += beta[i] * x[j, i];
-    }
-  }
-  y ~ normal(mu, sigma);  // likelihood
-  alpha ~ normal(0, 5);
-  beta ~ normal(0, 1);
-  sigma ~ normal(0, 2);
-}
+```{r, echo = FALSE, comment = "", results ='asis'}
+cat(readLines("regression_1.stan"), sep = "\n")
+```
 ```
 
 ---
@@ -122,30 +102,9 @@ class: small-code
 Store as `regression_2.stan`.
 
 ```stan
-data {
-  int<lower=0> N;   // number of data items
-  int<lower=0> K;   // number of predictors
-  matrix[N, K] x;   // predictor matrix
-  vector[N] y;      // outcome vector
-}
-parameters {
-  real alpha;           // intercept
-  vector[K] beta;       // coefficients for predictors
-  real<lower=0> sigma;  // error scale
-}
-model {
-  vector[N] mu;
-  for(i in 1:N) {
-    mu[i] = alpha;
-    for(j in 1:K) {
-      mu[i] += beta[j] * x[j, j];
-    }
-  }
-  y ~ normal(mu, sigma);  // likelihood
-  alpha ~ normal(0, 5);
-  beta ~ normal(0, 1);
-  sigma ~ normal(0, 2);
-}
+```{r, echo = FALSE, comment = "", results ='asis'}
+cat(readLines("regression_2.stan"), sep = "\n")
+```
 ```
 
 ---
@@ -157,23 +116,9 @@ class: small-code
 Store as `regression_3.stan`.
 
 ```stan
-data {
-  int<lower=0> N;   // number of data items
-  int<lower=0> K;   // number of predictors
-  matrix[N, K] x;   // predictor matrix
-  vector[N] y;      // outcome vector
-}
-parameters {
-  real alpha;           // intercept
-  vector[K] beta;       // coefficients for predictors
-  real<lower=0> sigma;  // error scale
-}
-model {
-  y ~ normal(transpose(beta) * transpose(x) + alpha, sigma);  // likelihood
-  alpha ~ normal(0, 5);
-  beta ~ normal(0, 1);
-  sigma ~ normal(0, 2);
-}
+```{r, echo = FALSE, comment = "", results ='asis'}
+cat(readLines("regression_3.stan"), sep = "\n")
+```
 ```
 
 ---
@@ -195,7 +140,7 @@ class: small-code
 Backend with `cmdstanr`
 ```r
   model_regression_1 <- cmdstan_model("regression_1.stan")
-  backend_regression_1 <- cmdstan_sample_SBC_backend(
+  backend_regression_1 <- SBC_backend_cmdstan_sample(
       model_regression_1, 
       iter_warmup = 400, iter_sampling = 500)
 
@@ -205,7 +150,7 @@ Backend with `rstan`
 
 ```r
   model_regression_1 <- stan_model("regression_1.stan")
-  backend_regression_1 <- rstan_sample_SBC_backend(
+  backend_regression_1 <- SBC_backend_rstan_sample(
       model_regression_1, 
        iter = 900, warmup = 400)
 ```

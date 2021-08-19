@@ -46,16 +46,77 @@ CoC, moderation
 
 ---
 
+# Question 2
+
 ## When is a single fit enough to notice a problem?
+
+---
+
+class: split-five
+
+.row[.content[
+
+# Question 3
+]]
+.row[.content[
+
+### Given the rank histogram for a positive parameter `sigma` below, which is the rank plot for `log(sigma)`?
+
+]]
+.row[.content[
+
+```{r, fig.height=2}
+set.seed(3324556)
+n_ranks <- 80
+max_rank <- 100
+ranks_sigma <- data.frame(dataset_id = 1:n_ranks, parameter = "sigma", rank = round(rbeta(n_ranks, 0.6, 0.9) * max_rank))
+
+plot_rank_hist(ranks_sigma, max_rank = max_rank) + ggtitle(" ")
+```
+
+
+]]
+.row[.content[
+
+```{r, fig.height=2}
+candidates_log_sigma <- list(
+  dplyr::mutate(ranks_sigma, parameter = "log(sigma)"),
+  data.frame(dataset_id = 1:n_ranks, parameter = "log(sigma)", rank = round(rbeta(n_ranks, 0.5, 0.9) * max_rank)),
+  data.frame(dataset_id = 1:n_ranks, parameter = "log(sigma)", rank = round(rbeta(n_ranks, 0.9, 0.9) * max_rank))
+)
+
+order <- sample.int(3)
+
+plot_rank_hist(candidates_log_sigma[[order[[1]]]], max_rank = max_rank) + ggtitle("A")
+plot_rank_hist(candidates_log_sigma[[order[[2]]]], max_rank = max_rank) + ggtitle("B")
+plot_rank_hist(candidates_log_sigma[[order[[3]]]], max_rank = max_rank) + ggtitle("C")
+
+
+```
+
+
+]]
+
+.row[.content[
+
+&nbsp;
+
+
+
+D) can't say, depends on additional properties of `sigma`
+
+]]
 
 ---
 
 class: split-three
 
 .row[.content[
-## Match the following rank plots to ECDF plots
+# Question 4
 
-### Which of those signals a problem? How severe?
+### Match the following rank plots to ECDF plots
+
+Which of those signals a problem? How severe?
 
 ]]
 
@@ -104,10 +165,11 @@ class: split-three
 
 .row[.content[
 
+# Question 5
+### Match the following rank plots to ECDF diff plots
 
-## Match the following rank plots to ECDF diff plots
+Which of those corresponds to overdispersion/underdispersion? Overestimation/underestimation? 
 
-### Which of those corresponds to overdispersion/underdispersion? Overestimation/underestimation? 
 ]]
 
 .row[.content[
@@ -152,64 +214,7 @@ plot_ecdf_diff(rank_dfs[[order2[[3]]]], max_rank = max_rank)  + ggtitle("3")
 
 ---
 
-### Which of those signals a problem? How severe?
-
----
-
-class: split-four
-
-.row[.content[
-
-### Given the `ecdf_diff` plot for a positive parameter `sigma` below, which is the `ecdf_diff` plot for `log(sigma)`?
-
-]]
-.row[.content[
-
-```{r, fig.height=2}
-set.seed(3324556)
-n_ranks <- 80
-max_rank <- 100
-ranks_sigma <- data.frame(dataset_id = 1:n_ranks, parameter = "sigma", rank = round(rbeta(n_ranks, 0.6, 0.9) * max_rank))
-
-plot_ecdf_diff(ranks_sigma, max_rank = max_rank) + ggtitle(" ")
-```
-
-
-]]
-.row[.content[
-
-```{r, fig.height=2}
-candidates_log_sigma <- list(
-  dplyr::mutate(ranks_sigma, parameter = "log(sigma)"),
-  data.frame(dataset_id = 1:n_ranks, parameter = "log(sigma)", rank = round(rbeta(n_ranks, 0.5, 0.9) * max_rank)),
-  data.frame(dataset_id = 1:n_ranks, parameter = "log(sigma)", rank = round(rbeta(n_ranks, 0.9, 0.9) * max_rank))
-)
-
-order <- sample.int(3)
-
-plot_ecdf_diff(candidates_log_sigma[[order[[1]]]], max_rank = max_rank) + ggtitle("A")
-plot_ecdf_diff(candidates_log_sigma[[order[[2]]]], max_rank = max_rank) + ggtitle("B")
-plot_ecdf_diff(candidates_log_sigma[[order[[3]]]], max_rank = max_rank) + ggtitle("B")
-
-
-```
-
-
-]]
-
-.row[.content[
-
-&nbsp;
-
-
-
-D) can't say, depends on additional properties of `sigma`
-
-]]
-
----
-
 # Bonus
 
-## 
+
 

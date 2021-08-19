@@ -41,23 +41,10 @@ remotes::install_github("hyunjimoon/SBC")
 A Stan model (`gamma.stan`)
 
 ```stan
-data {
-  int N;
-  vector<lower=0>[N] y;
-}
-
-parameters {
-  real<lower = 0> shape;
-  real<lower = 0> scale;  
-}
-
-model {
-  y ~ gamma(shape, scale);
-  shape ~ lognormal(0, 1);
-  scale ~ lognormal(0, 1.5);
-}
+```{r, echo = FALSE, comment = "", results ='asis'}
+cat(readLines("gamma.stan"), sep = "\n")
 ```
-
+```
 ---
 
 # Task 2/6 - build a backend
@@ -69,10 +56,10 @@ library(cmdstanr)
 library(SBC)
 model_gamma <- cmdstan_model("gamma.stan")
 
-backend_gamma <- cmdstan_sample_SBC_backend(
+backend_gamma <- SBC_backend_cmdstan_sample(
     model_gamma, # <- model is first argument
     # additional args passed to to model$sample() directly 
-    iter_warmup = 1000, iter_sampling = 500, chains = 2)
+    iter_warmup = 500, iter_sampling = 1000, chains = 2)
 ```
 
 Using `rstan`:
@@ -82,7 +69,7 @@ library(rstan)
 library(SBC)
 model_gamma <- stan_model("gamma.stan")
 
-backend_gamma <- rstan_sample_SBC_backend(
+backend_gamma <- SBC_backend_rstan_sample(
     model_gamma, # <- model is first argument
     # additional args passed to sampling directly 
     iter = 1500, warmup = 1000, chains = 2)
@@ -138,7 +125,7 @@ Here we build a "generator" object that can be used to create multiple datasets
 and combine them together.
 
 ```r
-generator_gamma <- function_SBC_generator(
+generator_gamma <- SBC_generator_function(
   # Passing single_dataset_gamma as a parameter, 
   # not calling it
   single_dataset_gamma, 
