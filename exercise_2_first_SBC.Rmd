@@ -4,7 +4,7 @@ author: "Martin Modrák"
 date: "2021/08/24 (updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
-    lib_dir: ./html/libs
+    lib_dir: ./libs
     css: ["hygge", "middlebury-fonts", "ninjutsu"]
     nature:
       highlightStyle: github
@@ -32,13 +32,27 @@ remotes::install_github("hyunjimoon/SBC")
 
 # Overview of the SBC package
 
-![overview.png](overview.png)
+```{r, echo = FALSE, out.height="500px", out.width = "auto"}
+knitr::include_graphics("overview.png")
+```
+
+---
+
+# Code notes
+
+We expect you to copy-paste code and store it in any way you prefer working with R either:
+
+- Directly paste to console
+- Create a script file and paste there
+- Paste into chunks in a .Rmd file
+
+Stan models should generally go into a specific Stan file (names given on the slides).
 
 ---
 
 # Task 1/6 - a Stan model
 
-A Stan model (`gamma.stan`)
+A Stan model (save as `gamma.stan`)
 
 ```stan
 ```{r, echo = FALSE, comment = "", results ='asis'}
@@ -205,7 +219,7 @@ Gamma distribution has multiple parametrizations which are we using?
 # Bonus Task 1
 
 Create a copy of `gamma.stan` called `gamma2.stan`. 
-Modify it to match the simulator.
+Modify it to match the simulator. (don't know how? there's a hint on the next slide)
 
 Create a new backend (`backend_gamma2`) with the modified model and rerun SBC with the same datasets:
 
@@ -214,6 +228,12 @@ results_gamma2 <- compute_results(
                    datasets_gamma, backend_gamma2)
 
 ```
+---
+
+# Bonus Task 1 - Hint
+
+Transform the parameter the model currently uses into one needed for Stan's parametrization
+in your `model` or `transformed parameters` block. You don't need to change anything else.
 
 ---
 

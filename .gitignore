@@ -41,5 +41,6 @@ vignettes/*.pdf
 
 /html/
 *.html
+/libs/
 
 *.exe

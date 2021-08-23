@@ -4,7 +4,7 @@ author: "Martin Modrák"
 date: "2021/08/24 (updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
-    lib_dir: ./html/libs
+    lib_dir: ./libs
     css: ["hygge", "middlebury-fonts", "ninjutsu", "tutorial-sbc.css"]
     nature:
       highlightStyle: github
@@ -85,7 +85,7 @@ class: small-code
 
 # Suspect 1
 
-Store as `regression_1.stan`.
+Store in a file called `regression_1.stan`.
 
 ```stan
 ```{r, echo = FALSE, comment = "", results ='asis'}
@@ -99,7 +99,7 @@ class: small-code
 
 # Suspect 2
 
-Store as `regression_2.stan`.
+Store in a file called  `regression_2.stan`.
 
 ```stan
 ```{r, echo = FALSE, comment = "", results ='asis'}
@@ -113,7 +113,7 @@ class: small-code
 
 # Suspect 3
 
-Store as `regression_3.stan`.
+Store in a file called  `regression_3.stan`.
 
 ```stan
 ```{r, echo = FALSE, comment = "", results ='asis'}

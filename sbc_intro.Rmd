@@ -4,7 +4,7 @@ author: "Martin Modrák"
 date: "2021/08/24 (updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
-    lib_dir: ./html/libs
+    lib_dir: ./libs
     css: ["hygge", "middlebury-fonts", "ninjutsu"]
     nature:
       highlightStyle: github
@@ -14,6 +14,10 @@ output:
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
+library(SBC)
+library(ggplot2)
+
+knitr::opts_chunk$set(echo=FALSE, fig.width = 4, fig.height=2.5)
 ```
 
 # Two types of problems with Stan model
@@ -129,3 +133,153 @@ Diagnostics (divergences, Rhat, ESS)
 
 
 ---
+
+# Consistency requirement
+
+"In 95% of simulations, the true parameter lies within the central 95% posterior credible interval."
+
+--
+
+"In x% of simulations, the true parameter lies within the x% posterior credible interval (of any kind)"
+
+--
+
+## SBC for single parameter:
+
+--
+
+1. Thin posterior to get $S$ independent samples.
+
+--
+
+2. For each simulation take the rank of the true value within the samples
+  - Rank: no. of samples < true value
+
+--
+
+3. Across simulations, this rank should be uniformly distributed between $0$ and $S$
+
+---
+class: split-three
+
+.row[.content[
+
+# SBC visualisations - Ranks 
+
+]]
+
+.row[.content[
+
+```{r}
+set.seed(216456)
+
+max_rank <- 100
+N_ranks <- 200
+
+rank_dfs <- list(
+  data.frame(parameter = "beta", dataset_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 1, shape2 = 1) * max_rank)),
+  data.frame(parameter = "beta", dataset_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 0.5, shape2 = 0.5) * max_rank)),
+  data.frame(parameter = "beta", dataset_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 2, shape2 = 2) * max_rank)),
+  data.frame(parameter = "beta", dataset_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 5, shape2 = 2) * max_rank)),
+  data.frame(parameter = "beta", dataset_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 1, shape2 = 2) * max_rank))
+)
+
+plot_rank_hist(rank_dfs[[1]], max_rank = max_rank) + ggtitle("Uniform")
+plot_rank_hist(rank_dfs[[2]], max_rank = max_rank) + ggtitle("Overdispersed")
+plot_rank_hist(rank_dfs[[3]], max_rank = max_rank) + ggtitle("Underdispersed")
+```
+
+]]
+
+.row[.content[
+
+```{r}
+plot_rank_hist(rank_dfs[[4]], max_rank = max_rank) + ggtitle("Overestimating")
+plot_rank_hist(rank_dfs[[5]], max_rank = max_rank) + ggtitle("Underestimating")
+
+```
+
+]]
+
+
+---
+
+class: split-three
+
+.row[.content[
+
+# SBC visualisations - ECDF 
+
+]]
+
+.row[.content[
+
+
+```{r}
+plot_ecdf(rank_dfs[[1]], max_rank = max_rank) + ggtitle("Uniform")
+plot_ecdf(rank_dfs[[2]], max_rank = max_rank) + ggtitle("Overdispersed")
+plot_ecdf(rank_dfs[[3]], max_rank = max_rank) + ggtitle("Underdispersed")
+```
+
+]]
+
+.row[.content[
+
+```{r}
+plot_ecdf(rank_dfs[[4]], max_rank = max_rank) + ggtitle("Overestimating")
+plot_ecdf(rank_dfs[[5]], max_rank = max_rank) + ggtitle("Underestimating")
+
+```
+
+]]
+
+
+---
+
+class: split-three
+
+.row[.content[
+
+# SBC visualisations - ECDF diff
+
+]]
+
+.row[.content[
+
+
+```{r}
+plot_ecdf_diff(rank_dfs[[1]], max_rank = max_rank) + ggtitle("Uniform")
+plot_ecdf_diff(rank_dfs[[2]], max_rank = max_rank) + ggtitle("Overdispersed")
+plot_ecdf_diff(rank_dfs[[3]], max_rank = max_rank) + ggtitle("Underdispersed")
+```
+
+]]
+
+.row[.content[
+
+```{r}
+plot_ecdf_diff(rank_dfs[[4]], max_rank = max_rank) + ggtitle("Overestimating")
+plot_ecdf_diff(rank_dfs[[5]], max_rank = max_rank) + ggtitle("Underestimating")
+
+```
+
+]]
+
+
+---
+
+# Limits of SBC
+
+The consistency criteria we check is that "prior matches the posterior averaged over data".
+
+--
+
+If the prior matches the posterior always (e.g. we ignore data)...
+
+--
+
+... SBC will pass.
+
+--
+
+Some ways around this - can be found in the `limits_of_SBC.Rmd` vignette in the SBC package.

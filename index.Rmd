@@ -1,0 +1,12 @@
+---
+title: "SBC Tutorial - Index"
+author: "Martin Modrák"
+date: "2021/08/24 (updated: `r Sys.Date()`)"
+output:
+  html_document
+---
+
+- [Introduction to SBC](sbc_intro.html)
+- [Exercise 1 - SBC theory](exercise_1_theory.html)
+- [Exercise 2 - Your first SBC](exercise_2_first_SBC.html)
+- [Exercise 3 - Linear regression](exercise_3_regression.html)
