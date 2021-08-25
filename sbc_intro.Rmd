@@ -17,8 +17,33 @@ options(htmltools.dir.version = FALSE)
 library(SBC)
 library(ggplot2)
 
-knitr::opts_chunk$set(echo=FALSE, fig.width = 4, fig.height=2.5)
+knitr::opts_chunk$set(echo=FALSE, cache = TRUE, fig.width = 4, fig.height=2.5)
 ```
+
+# SBC Context
+
+--
+
+- SBC is a tool to check you implemented your model correctly.
+
+--
+
+- It just one of tools to validate your model in a Bayesian workflow
+
+--
+
+- SBC can be run even before you collect data
+
+--
+
+- The goal of this tutorial is to show you that with the `SBC` package,
+there is little cost to including (some form of) SBC in your everyday modelling workflow.
+
+--
+
+- In this tutorial, we'll let you use SBC to find and diagnose a bug.
+
+---
 
 # Two types of problems with Stan model
 
@@ -79,7 +104,7 @@ model {
   
 ## R  
 
-```{r, eval = FALSE}
+```r
 # N and x is not modelled, 
 # choose to match your actual data
 N <- 10
@@ -185,8 +210,8 @@ rank_dfs <- list(
 )
 
 plot_rank_hist(rank_dfs[[1]], max_rank = max_rank) + ggtitle("Uniform")
-plot_rank_hist(rank_dfs[[2]], max_rank = max_rank) + ggtitle("Overdispersed")
-plot_rank_hist(rank_dfs[[3]], max_rank = max_rank) + ggtitle("Underdispersed")
+plot_rank_hist(rank_dfs[[2]], max_rank = max_rank) + ggtitle("Model too certain")
+plot_rank_hist(rank_dfs[[3]], max_rank = max_rank) + ggtitle("Model too uncertain")
 ```
 
 ]]
@@ -194,8 +219,8 @@ plot_rank_hist(rank_dfs[[3]], max_rank = max_rank) + ggtitle("Underdispersed")
 .row[.content[
 
 ```{r}
-plot_rank_hist(rank_dfs[[4]], max_rank = max_rank) + ggtitle("Overestimating")
-plot_rank_hist(rank_dfs[[5]], max_rank = max_rank) + ggtitle("Underestimating")
+plot_rank_hist(rank_dfs[[4]], max_rank = max_rank) + ggtitle("Model underestimating")
+plot_rank_hist(rank_dfs[[5]], max_rank = max_rank) + ggtitle("Model overestimating")
 
 ```
 
@@ -210,6 +235,9 @@ class: split-three
 
 # SBC visualisations - ECDF 
 
+a.k.a. "black line outside blue region is a problem"
+
+
 ]]
 
 .row[.content[
@@ -217,8 +245,8 @@ class: split-three
 
 ```{r}
 plot_ecdf(rank_dfs[[1]], max_rank = max_rank) + ggtitle("Uniform")
-plot_ecdf(rank_dfs[[2]], max_rank = max_rank) + ggtitle("Overdispersed")
-plot_ecdf(rank_dfs[[3]], max_rank = max_rank) + ggtitle("Underdispersed")
+plot_ecdf(rank_dfs[[2]], max_rank = max_rank) + ggtitle("Model too certain")
+plot_ecdf(rank_dfs[[3]], max_rank = max_rank) + ggtitle("Model too uncertain")
 ```
 
 ]]
@@ -226,8 +254,8 @@ plot_ecdf(rank_dfs[[3]], max_rank = max_rank) + ggtitle("Underdispersed")
 .row[.content[
 
 ```{r}
-plot_ecdf(rank_dfs[[4]], max_rank = max_rank) + ggtitle("Overestimating")
-plot_ecdf(rank_dfs[[5]], max_rank = max_rank) + ggtitle("Underestimating")
+plot_ecdf(rank_dfs[[4]], max_rank = max_rank) + ggtitle("Model underestimating")
+plot_ecdf(rank_dfs[[5]], max_rank = max_rank) + ggtitle("Model overestimating")
 
 ```
 
@@ -242,6 +270,8 @@ class: split-three
 
 # SBC visualisations - ECDF diff
 
+a.k.a. "black line outside blue region is a problem, rotated for readability"
+
 ]]
 
 .row[.content[
@@ -249,8 +279,8 @@ class: split-three
 
 ```{r}
 plot_ecdf_diff(rank_dfs[[1]], max_rank = max_rank) + ggtitle("Uniform")
-plot_ecdf_diff(rank_dfs[[2]], max_rank = max_rank) + ggtitle("Overdispersed")
-plot_ecdf_diff(rank_dfs[[3]], max_rank = max_rank) + ggtitle("Underdispersed")
+plot_ecdf_diff(rank_dfs[[2]], max_rank = max_rank) + ggtitle("Model too certain")
+plot_ecdf_diff(rank_dfs[[3]], max_rank = max_rank) + ggtitle("Model too uncertain")
 ```
 
 ]]
@@ -258,28 +288,10 @@ plot_ecdf_diff(rank_dfs[[3]], max_rank = max_rank) + ggtitle("Underdispersed")
 .row[.content[
 
 ```{r}
-plot_ecdf_diff(rank_dfs[[4]], max_rank = max_rank) + ggtitle("Overestimating")
-plot_ecdf_diff(rank_dfs[[5]], max_rank = max_rank) + ggtitle("Underestimating")
+plot_ecdf_diff(rank_dfs[[4]], max_rank = max_rank) + ggtitle("Model underestimating")
+plot_ecdf_diff(rank_dfs[[5]], max_rank = max_rank) + ggtitle("Model overestimating")
 
 ```
 
 ]]
 
-
----
-
-# Limits of SBC
-
-The consistency criteria we check is that "prior matches the posterior averaged over data".
-
---
-
-If the prior matches the posterior always (e.g. we ignore data)...
-
---
-
-... SBC will pass.
-
---
-
-Some ways around this - can be found in the `limits_of_SBC.Rmd` vignette in the SBC package.

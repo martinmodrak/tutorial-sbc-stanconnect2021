@@ -67,7 +67,7 @@ single_dataset_regression <- function(N, K) {
 
 ---
 
-# Task 1
+# Task 1/2
 
 Build the generator and generate datasets.
 Once again, 10 datasets should serve us well.
@@ -123,7 +123,7 @@ cat(readLines("regression_3.stan"), sep = "\n")
 
 ---
 
-# Question 1
+# Question 1/2
 
 Make a guess - which of the suspects you believe implement linear regression correctly? (could be all three)
 Which of the suspects will not give correct results? (could be all three).
@@ -135,7 +135,7 @@ help us!
 
 class: small-code
 
-# Task 2 - Run SBC
+# Task 2/2 - Run SBC
 
 Backend with `cmdstanr`
 ```r

@@ -40,13 +40,21 @@ CoC, moderation
 
 ---
 
-# Question 1
+# Task 1/1
+
+Introduce yourself to the rest of the table. What projects are you working on?
+
+(3 questions for individual work follow)
+
+---
+
+# Question 1/3
 
 ## If SBC signals a problem, does it mean that the model needs fixing?
 
 ---
 
-# Question 2
+# Question 2/3
 
 ## When is a single fit enough to notice a problem?
 
@@ -56,7 +64,7 @@ class: split-five
 
 .row[.content[
 
-# Question 3
+# Question 3/3
 ]]
 .row[.content[
 
@@ -112,7 +120,7 @@ D) can't say, depends on additional properties of `sigma`
 class: split-three
 
 .row[.content[
-# Question 4
+# Bonus Question 1
 
 ### Match the following rank plots to ECDF plots
 
@@ -165,7 +173,8 @@ class: split-three
 
 .row[.content[
 
-# Question 5
+# Bonus Question 2
+
 ### Match the following rank plots to ECDF diff plots
 
 Which of those corresponds to overdispersion/underdispersion? Overestimation/underestimation? 
@@ -211,10 +220,5 @@ plot_ecdf_diff(rank_dfs[[order2[[3]]]], max_rank = max_rank)  + ggtitle("3")
  
   
 ]]
-
----
-
-# Bonus
-
 
 

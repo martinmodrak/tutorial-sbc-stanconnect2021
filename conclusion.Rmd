@@ -1,0 +1,53 @@
+---
+title: "SBC Tutorial - Concliding remarks"
+author: "Martin Modrák"
+date: "2021/08/24 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    lib_dir: ./libs
+    css: ["hygge", "middlebury-fonts", "ninjutsu"]
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+---
+
+# Side effects of SBC
+
+- Prior predictive checks
+
+- Posterior/prior shrinkage
+
+---
+
+# Limits of SBC
+
+The consistency criteria we check is that "prior matches the posterior averaged over data".
+
+--
+
+If the prior matches the posterior always (e.g. we ignore data)...
+
+--
+
+... SBC will pass.
+
+--
+
+Some ways around this - can be found in the `limits_of_SBC.Rmd` vignette in the SBC package.
+
+---
+
+# Main takeaways
+
+- Once you have code to create simulated data, adding SBC is not hard.
+
+--
+
+- SBC is just one way of checking your model and it is not perfect

@@ -12,14 +12,17 @@ output:
       countIncrementalSlides: false
 ---
 
-
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 library(cmdstanr)
 library(SBC)
-model_gamma <- cmdstan_model("gamma.stan")
 
 knitr::opts_chunk$set(echo=FALSE, cache = TRUE, fig.width = 5, fig.height=4)
+```
+
+
+```{r computeSBC, results="hide", include = FALSE}
+model_gamma <- cmdstan_model("gamma.stan")
 
 backend_gamma <- SBC_backend_cmdstan_sample(
     model_gamma, # <- model is first argument
@@ -62,9 +65,31 @@ results_gamma <- compute_results(
 ```
 
 
-```{r, fig.width = 4, fig.height=2.5}
+
+```{r, fig.width = 4.5, fig.height=4}
 plot_rank_hist(results_gamma, bins = 10)
 plot_ecdf(results_gamma)
 plot_ecdf_diff(results_gamma)
 ```
 
+---
+
+## Correcting the parametrization
+
+Where we had
+
+```stan
+  y ~ gamma(shape, scale);
+```
+
+we need
+
+```stan
+  y ~ gamma(shape, 1/scale);
+```
+
+--
+
+(or we could change the simulator to use `rate` instead)
+
+---

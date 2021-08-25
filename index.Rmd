@@ -10,3 +10,4 @@ output:
 - [Exercise 1 - SBC theory](exercise_1_theory.html)
 - [Exercise 2 - Your first SBC](exercise_2_first_SBC.html)
 - [Exercise 3 - Linear regression](exercise_3_regression.html)
+- [Concluding remarks](conclusion.html)
