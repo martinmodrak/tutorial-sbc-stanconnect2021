@@ -34,9 +34,6 @@ knitr::opts_chunk$set(echo=FALSE, cache=TRUE, fig.width = 4, fig.height=2.5)
   - Mute everything and work alone
   - Take your time
   - Rush through everything
-  - Wing it and wait for others to complete and tell you how it went.
-
-CoC, moderation
 
 ---
 

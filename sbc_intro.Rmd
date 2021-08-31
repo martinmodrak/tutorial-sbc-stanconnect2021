@@ -12,6 +12,15 @@ output:
       countIncrementalSlides: false
 ---
 
+
+```{r, echo = FALSE, out.width="780px", out.height = "auto"}
+knitr::include_graphics("elixir_logo.png")
+```
+
+
+This work was supported by ELIXIR CZ research infrastructure project (MEYS Grant No: LM2018131) including access to computing and storage facilities.
+
+---
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 library(SBC)
@@ -19,6 +28,38 @@ library(ggplot2)
 
 knitr::opts_chunk$set(echo=FALSE, cache = TRUE, fig.width = 4, fig.height=2.5)
 ```
+
+# Model workflow
+
+- Prior predictive checks 
+
+--
+
+- Validate computation 
+
+--
+
+- Evaluate model fit to real data 
+  - Posterior predictive checks 
+  
+--
+
+- Use the model
+
+---
+
+# Model workflow
+
+- Prior predictive checks
+
+- Validate computation **⬅ SBC lives here**
+
+- Evaluate model fit to real data
+  - Posterior predictive checks 
+  
+- Use the model
+
+---
 
 # SBC Context
 
@@ -154,7 +195,7 @@ Is this OK, if we simulated
 
 Diagnostics (divergences, Rhat, ESS)
 
-# How to spot succes?!
+# How to spot success?!
 
 
 ---

@@ -51,3 +51,7 @@ Some ways around this - can be found in the `limits_of_SBC.Rmd` vignette in the 
 --
 
 - SBC is just one way of checking your model and it is not perfect
+
+--
+
+- Donate to Stan! https://mc-stan.org/support/

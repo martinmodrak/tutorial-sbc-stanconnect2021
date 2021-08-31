@@ -1,0 +1,92 @@
+---
+title: "SBC Intro"
+author: "Martin Modrák"
+date: "2021/08/24 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    lib_dir: ./libs
+    css: ["hygge", "middlebury-fonts", "ninjutsu"]
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+
+```{r, echo = FALSE, out.width="780px", out.height = "auto"}
+knitr::include_graphics("elixir_logo.png")
+```
+
+
+This work was supported by ELIXIR CZ research infrastructure project (MEYS Grant No: LM2018131) including access to computing and storage facilities.
+
+---
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+library(SBC)
+library(ggplot2)
+
+knitr::opts_chunk$set(echo=FALSE, cache = TRUE, fig.width = 4, fig.height=2.5)
+```
+
+
+# Context
+
+--
+
+- SBC can be a useful tool to check you implemented your model correctly.
+
+--
+
+- It just one of tools to validate your model in a Bayesian workflow
+
+--
+
+- SBC can be run even before you collect data
+
+--
+
+- The goal of this tutorial is to show you that with the `SBC` package,
+there is little cost to including (some form of) SBC in your everyday modelling workflow.
+
+--
+
+- In this tutorial, we'll let you use SBC to find and diagnose a bug.
+
+--
+
+- We will show toy problems, but have applied it to non-toy problems as well.
+
+---
+
+# Two types of problems with Stan model
+
+1. Bug in model 
+
+--
+
+2. Data - model mismatch 
+
+--
+
+We will focus on 1.
+
+---
+
+# Result of SBC
+
+### SBC fails: There is a mismatch between our model, algorithm and simulator.
+
+--
+
+&nbsp;&nbsp;&nbsp;&nbsp; The mismatch can be anywhere!
+
+--
+
+### SBC passes: To the precision availabe with the given number of simulations, our model, algorithm and simulator are consistent.
+
+--
+
+&nbsp;&nbsp;&nbsp;&nbsp;For a specific sense of consistent. Nothing more, nothing less.
+
+

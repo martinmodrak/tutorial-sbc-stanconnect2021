@@ -32,8 +32,8 @@ remotes::install_github("hyunjimoon/SBC")
 
 # Overview of the SBC package
 
-```{r, echo = FALSE, out.height="500px", out.width = "auto"}
-knitr::include_graphics("overview.png")
+```{r, echo = FALSE, out.width="780px", out.height = "auto"}
+knitr::include_graphics("overview_wide.png")
 ```
 
 ---
@@ -81,7 +81,7 @@ Using `rstan`:
 ```r
 library(rstan)
 library(SBC)
-model_gamma <- stan_model("gamma.stan")
+model_gamma <- stan_model("gamma.stan", model_name = "gamma_mod")
 
 backend_gamma <- SBC_backend_rstan_sample(
     model_gamma, # <- model is first argument
@@ -238,6 +238,11 @@ in your `model` or `transformed parameters` block. You don't need to change anyt
 ---
 
 # Bonus Task 2
+
+z-score is another measure on how extreme the "true" simulated value is with respect to the posterior.
+It is the difference between the true value  and posterior mean standardized by dividing by the standard deviations of the posterior.
+
+$$z = \frac{\theta_{\mathrm{true}} - \mathrm{mean_{post}}}{\mathrm{sd_{post}}}$$
 
 You can inspect a detailed report of the "true" simulated values, their rank and z-score
 in the posterior and summaries of the posterior distribution via `results_gamma$stats`.
