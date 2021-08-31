@@ -26,7 +26,7 @@ options(htmltools.dir.version = FALSE)
 library(SBC)
 library(ggplot2)
 
-knitr::opts_chunk$set(echo=FALSE, cache = TRUE, fig.width = 4, fig.height=2.5)
+knitr::opts_chunk$set(echo=FALSE, cache = TRUE, fig.width = 7, fig.height=4)
 ```
 
 
@@ -73,17 +73,40 @@ We will focus on 1.
 
 ---
 
-# Result of SBC
+# Result of SBC (1)
 
 ### SBC fails: There is a mismatch between our model, algorithm and simulator.
+
+```{r}
+set.seed(216456)
+
+max_rank <- 100
+N_ranks <- 200
+
+rank_dfs <- list(
+  data.frame(parameter = "beta", dataset_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 0.8, shape2 = 1.2) * max_rank)),
+  data.frame(parameter = "beta", dataset_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 1, shape2 = 1) * max_rank))
+)
+
+plot_ecdf_diff(rank_dfs[[1]], max_rank = max_rank)
+```
+
 
 --
 
 &nbsp;&nbsp;&nbsp;&nbsp; The mismatch can be anywhere!
 
---
+---
+
+# Result of SBC (2)
+
 
 ### SBC passes: To the precision availabe with the given number of simulations, our model, algorithm and simulator are consistent.
+
+```{r}
+plot_ecdf_diff(rank_dfs[[2]], max_rank = max_rank)
+```
+
 
 --
 

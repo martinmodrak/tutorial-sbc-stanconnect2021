@@ -32,6 +32,7 @@ Then you can install SBC via
 remotes::install_github("hyunjimoon/SBC")
 ```
 
+
 ## Slides for the tutorial
 
 - [Introduction to SBC](sbc_intro.html)
@@ -41,6 +42,18 @@ remotes::install_github("hyunjimoon/SBC")
 - [Exercise 3 - Linear regression](exercise_3_regression.html)
 - [Concluding remarks](conclusion.html)
 
+## Getting help during the live tutorial
+
+If you are having technical problems running Stan models, visit on of the "Resolving Stan problems" 
+tables in the social lounge.
+
+Problems with tutorial tasks/questions should first be consulted with your colleagues at your table.
+If that doesn't work for you for any reason, send a private message to one of the organizers (Martin Modrák, Hyunji Moon, 
+Shinyoung Kim) - you need to click "People" in the right sidebar, find any of us and click "Send message" 
+
+## Discuss your results
+
+If you want to discuss the results after the tutorial (e.g. wonder if you got the bonus questions right), feel welcome to ask at [a dedicated thread on Stan forums](https://discourse.mc-stan.org/t/sbc-stanconnect-tutorial-discussion-thread/24176).
 
 ## Poster on SBC & algorithms
 

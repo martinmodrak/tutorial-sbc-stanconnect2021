@@ -1,5 +1,5 @@
 ---
-title: "SBC Tutorial - Concliding remarks"
+title: "SBC Tutorial - Concluding remarks"
 author: "Martin Modrák"
 date: "2021/08/24 (updated: `r Sys.Date()`)"
 output:

@@ -85,7 +85,7 @@ class: small-code
 
 # Suspect 1
 
-Store in a file called `regression_1.stan`.
+Already saved in `regression_1.stan` if you ran the setup script, otherwise store it in this file yourself :-)
 
 ```stan
 ```{r, echo = FALSE, comment = "", results ='asis'}

@@ -14,5 +14,5 @@ rmarkdown::render("conclusion.Rmd")
 files <- c("libs", list.files(pattern = "*.html"), list.files(pattern = "_files", include.dirs = TRUE))
 file.rename(from = files, to = paste0(target_dir, "/", files))
 
-files_copy <- list.files(pattern = "*.png")
+files_copy <- c(list.files(pattern = "*.png"), list.files(pattern = "*css"))
 file.copy(files_copy, to = paste0(target_dir, "/", files_copy))

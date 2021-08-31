@@ -28,6 +28,7 @@ install.package("remotes")
 remotes::install_github("hyunjimoon/SBC")
 ```
 
+The package is already installed if you've ran the setup script.
 ---
 
 # Overview of the SBC package
@@ -52,7 +53,7 @@ Stan models should generally go into a specific Stan file (names given on the sl
 
 # Task 1/6 - a Stan model
 
-A Stan model (save as `gamma.stan`)
+A Stan model (already saved in `gamma.stan` if you ran the setup script, otherwise copy and paste to that file)
 
 ```stan
 ```{r, echo = FALSE, comment = "", results ='asis'}
