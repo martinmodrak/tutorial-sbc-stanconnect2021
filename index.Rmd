@@ -3,7 +3,9 @@ title: "SBC Tutorial - Index"
 author: "Martin Modrák"
 date: "2021/08/24 (updated: `r Sys.Date()`)"
 output:
-  html_document
+  html_document:
+    includes:
+      in_header: header.html    
 ---
 
 ## Preparing for the tutorial
@@ -13,7 +15,8 @@ https://mc-stan.org/cmdstanr/articles/cmdstanr.html
 If you encounter any problems during installation, please ask for help at https://discourse.mc-stan.org/
 
 To let you work quickly through the exercises, we recommend running our setup script that
-makes sure you have installed all you need and precompiles all models used in the exercises. You can run it via
+makes sure you have installed all you need and precompiles all models used in the exercises. 
+Create an empty directory for the tutorial files and run
 
 ```r
 source("https://raw.githubusercontent.com/martinmodrak/tutorial-sbc-stanconnect2021/main/setup_script.R")
@@ -72,3 +75,7 @@ a simulator and model we trust (unlike the tutorial which focuses on testing a m
 
 
 This work was supported by ELIXIR CZ research infrastructure project (MEYS Grant No: LM2018131) including access to computing and storage facilities.
+
+
+<script defer data-domain="martinmodrak.cz" src="https://plausible.io/js/plausible.js"></script>
+

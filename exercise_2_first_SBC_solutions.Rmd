@@ -17,6 +17,11 @@ options(htmltools.dir.version = FALSE)
 library(cmdstanr)
 library(SBC)
 
+if(packageVersion("SBC") < package_version("0.1.0.0")) {
+  stop(paste0("This tutorial has been updated for SBC 0.1, please update your SBC installation"))
+}
+
+
 knitr::opts_chunk$set(echo=FALSE, cache = TRUE, fig.width = 5, fig.height=4)
 ```
 
@@ -30,14 +35,14 @@ backend_gamma <- SBC_backend_cmdstan_sample(
     iter_warmup = 500, iter_sampling = 1000, chains = 2)
 
 # N - the number of observed datapoints
-single_dataset_gamma <- function(N) {
+single_sim_gamma <- function(N) {
   shape <- rlnorm(n = 1, meanlog =  0, sdlog = 1)
   scale <- rlnorm(n = 1, meanlog = 0, sdlog = 1.5)
   y <- rgamma(N, shape = shape, scale = scale)
   
   list(
     # True, unobserved
-    parameters = list(
+    variables = list(
       shape = shape,
       scale = scale),
     # Observed data, passed directly to Stan
@@ -49,18 +54,18 @@ single_dataset_gamma <- function(N) {
 
 
 generator_gamma <- SBC_generator_function(
-  # Passing single_dataset_gamma as a parameter, 
+  # Passing single_sim_gamma as a parameter, 
   # not calling it
-  single_dataset_gamma, 
+  single_sim_gamma, 
   # Additional arguments are passed to the function
   # Here we only use N
   N = 40)
   
 datasets_gamma <- generate_datasets(
   generator_gamma, 
-  n_datasets = 10)
+  n_sims = 10)
 
-results_gamma <- compute_results(
+results_gamma <- compute_SBC(
                    datasets_gamma, backend_gamma)
 ```
 

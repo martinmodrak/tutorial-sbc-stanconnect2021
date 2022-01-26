@@ -202,11 +202,14 @@ Diagnostics (divergences, Rhat, ESS)
 
 # Consistency requirement
 
-"In 95% of simulations, the true parameter lies within the central 95% posterior credible interval."
+"In 95% of simulations, the true variable lies within the central 95% posterior credible interval."
+
+
+  - Variable = parameter or a function of parameter(s)
 
 --
 
-"In x% of simulations, the true parameter lies within the x% posterior credible interval (of any kind)"
+"In x% of simulations, the true varible lies within the x% posterior credible interval (of any kind)"
 
 --
 
@@ -243,11 +246,11 @@ max_rank <- 100
 N_ranks <- 200
 
 rank_dfs <- list(
-  data.frame(parameter = "beta", dataset_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 1, shape2 = 1) * max_rank)),
-  data.frame(parameter = "beta", dataset_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 0.5, shape2 = 0.5) * max_rank)),
-  data.frame(parameter = "beta", dataset_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 2, shape2 = 2) * max_rank)),
-  data.frame(parameter = "beta", dataset_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 5, shape2 = 2) * max_rank)),
-  data.frame(parameter = "beta", dataset_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 1, shape2 = 2) * max_rank))
+  data.frame(variable = "beta", sim_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 1, shape2 = 1) * max_rank)),
+  data.frame(variable = "beta", sim_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 0.5, shape2 = 0.5) * max_rank)),
+  data.frame(variable = "beta", sim_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 2, shape2 = 2) * max_rank)),
+  data.frame(variable = "beta", sim_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 5, shape2 = 2) * max_rank)),
+  data.frame(variable = "beta", sim_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 1, shape2 = 2) * max_rank))
 )
 
 plot_rank_hist(rank_dfs[[1]], max_rank = max_rank) + ggtitle("Uniform")

@@ -35,7 +35,7 @@ Stan code!
 We promise the code below is correct. `N` is the number of data points, `K` the number of predictors.
 
 ```r
-single_dataset_regression <- function(N, K) {
+single_sim_regression <- function(N, K) {
   x <- matrix(rnorm(n = N * K, mean = 0, sd = 1), 
               nrow = N, ncol = K)
   alpha <- rnorm(n = 1, mean = 0, sd = 1)
@@ -52,7 +52,7 @@ single_dataset_regression <- function(N, K) {
   }
   
   list(
-    parameters = list(
+    variables = list(
       alpha = alpha,
       beta = beta,
       sigma = sigma),
@@ -69,12 +69,12 @@ single_dataset_regression <- function(N, K) {
 
 # Task 1/2
 
-Build the generator and generate datasets.
-Once again, 10 datasets should serve us well.
+Build the generator and run simulations.
+Once again, 10 simulations should serve us well.
 
 ```r
 generator_regression <- SBC_generator_function(
-               single_dataset_regression, N = 100, K = 2)
+               single_sim_regression, N = 100, K = 2)
 datasets_regression <- generate_datasets(
                generator_regression, 10)
 ```
@@ -159,7 +159,7 @@ SBC + plots
 
 ```r
 results_regression_1 <- 
-  compute_results(datasets_regression, backend_regression_1)
+  compute_SBC(datasets_regression, backend_regression_1)
 plot_rank_hist(results_regression_1)
 plot_ecdf(results_regression_1)
 plot_ecdf_diff(results_regression_1)
@@ -173,7 +173,7 @@ plot_ecdf_diff(results_regression_1)
 # Question 2/2
 
 Which of the suspects were caught misleading us using SBC? 
-Which parameters are affected the most and in which direction?
+Which variables are affected the most and in which direction?
 
 
 ---

@@ -17,6 +17,11 @@ options(htmltools.dir.version = FALSE)
 library(SBC)
 library(ggplot2)
 
+if(packageVersion("SBC") < package_version("0.1.0.0")) {
+  stop(paste0("This tutorial has been updated for SBC 0.1, please update your SBC installation"))
+}
+
+
 knitr::opts_chunk$set(echo=FALSE, cache=TRUE, fig.width = 4, fig.height=2.5)
 ```
 
@@ -65,7 +70,7 @@ class: split-five
 ]]
 .row[.content[
 
-### Given the rank histogram for a positive parameter `sigma` below, which is the rank plot for `log(sigma)`?
+### Given the rank histogram for a positive variable `sigma` below, which is the rank plot for `log(sigma)`?
 
 ]]
 .row[.content[
@@ -74,7 +79,7 @@ class: split-five
 set.seed(3324556)
 n_ranks <- 80
 max_rank <- 100
-ranks_sigma <- data.frame(dataset_id = 1:n_ranks, parameter = "sigma", rank = round(rbeta(n_ranks, 0.6, 0.9) * max_rank))
+ranks_sigma <- data.frame(sim_id = 1:n_ranks, variable = "sigma", rank = round(rbeta(n_ranks, 0.6, 0.9) * max_rank))
 
 plot_rank_hist(ranks_sigma, max_rank = max_rank) + ggtitle(" ")
 ```
@@ -85,9 +90,9 @@ plot_rank_hist(ranks_sigma, max_rank = max_rank) + ggtitle(" ")
 
 ```{r, fig.height=2}
 candidates_log_sigma <- list(
-  dplyr::mutate(ranks_sigma, parameter = "log(sigma)"),
-  data.frame(dataset_id = 1:n_ranks, parameter = "log(sigma)", rank = round(rbeta(n_ranks, 0.5, 0.9) * max_rank)),
-  data.frame(dataset_id = 1:n_ranks, parameter = "log(sigma)", rank = round(rbeta(n_ranks, 0.9, 0.9) * max_rank))
+  dplyr::mutate(ranks_sigma, variable = "log(sigma)"),
+  data.frame(sim_id = 1:n_ranks, variable = "log(sigma)", rank = round(rbeta(n_ranks, 0.5, 0.9) * max_rank)),
+  data.frame(sim_id = 1:n_ranks, variable = "log(sigma)", rank = round(rbeta(n_ranks, 0.9, 0.9) * max_rank))
 )
 
 order <- sample.int(3)
@@ -136,9 +141,9 @@ max_rank <- 100
 N_ranks <- 100
 
 rank_dfs <- list(
-  data.frame(parameter = "beta", dataset_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 1, shape2 = 1) * max_rank)),
-  data.frame(parameter = "beta", dataset_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 3, shape2 = 1) * max_rank)),
-  data.frame(parameter = "beta", dataset_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 8, shape2 = 4) * max_rank))
+  data.frame(variable = "beta", sim_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 1, shape2 = 1) * max_rank)),
+  data.frame(variable = "beta", sim_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 3, shape2 = 1) * max_rank)),
+  data.frame(variable = "beta", sim_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 8, shape2 = 4) * max_rank))
 )
 
 order1 <- sample.int(3)
@@ -188,11 +193,11 @@ max_rank <- 100
 N_ranks <- 30
 
 rank_dfs <- list(
-  data.frame(parameter = "beta", dataset_id = 1:N_ranks, rank = round(
+  data.frame(variable = "beta", sim_id = 1:N_ranks, rank = round(
     ifelse(runif(N_ranks) < 0.4, rbeta(N_ranks, shape1 = 15, shape2 = 4), rbeta(N_ranks, shape1 = 30, shape2 = 1))
     * max_rank)),
-  data.frame(parameter = "beta", dataset_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 0.1, shape2 = 0.1) * max_rank)),
-  data.frame(parameter = "beta", dataset_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 6, shape2 = 6) * max_rank))
+  data.frame(variable = "beta", sim_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 0.1, shape2 = 0.1) * max_rank)),
+  data.frame(variable = "beta", sim_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 6, shape2 = 6) * max_rank))
 )
 
 order1 <- sample.int(3)

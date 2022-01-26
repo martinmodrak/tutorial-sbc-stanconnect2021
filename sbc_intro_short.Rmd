@@ -84,8 +84,8 @@ max_rank <- 100
 N_ranks <- 200
 
 rank_dfs <- list(
-  data.frame(parameter = "beta", dataset_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 0.8, shape2 = 1.2) * max_rank)),
-  data.frame(parameter = "beta", dataset_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 1, shape2 = 1) * max_rank))
+  data.frame(variable = "beta", sim_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 0.8, shape2 = 1.2) * max_rank)),
+  data.frame(variable = "beta", sim_id = 1:N_ranks, rank = round(rbeta(N_ranks, shape1 = 1, shape2 = 1) * max_rank))
 )
 
 plot_ecdf_diff(rank_dfs[[1]], max_rank = max_rank)
